@@ -30,7 +30,7 @@ class VideoScrollableView extends StatelessWidget {
           child: const Center(
             child: Text(
               'Gradiente Horizontal',
-              style: TextStyle(fontSize: 24, color: Colors.black),
+              style: TextStyle(fontSize: 24, color: Colors.white),
             ),
           ),
         ),
