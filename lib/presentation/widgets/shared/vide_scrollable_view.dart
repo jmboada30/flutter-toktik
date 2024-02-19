@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toktik/domain/entities/video_post.dart';
+import 'package:toktik/presentation/widgets/shared/video_buttons.dart';
+import 'package:toktik/presentation/widgets/video/fullscreen_player.dart';
 
 class VideoScrollableView extends StatelessWidget {
   final List<VideoPost> videos;
@@ -7,43 +9,34 @@ class VideoScrollableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
+    return PageView.builder(
       scrollDirection: Axis.vertical,
       physics: const BouncingScrollPhysics(),
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Colors.yellow, Colors.orange],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight)),
-          child: const Center(
-            child: Text(
-              'Gradiente Vertical',
-              style: TextStyle(fontSize: 24, color: Colors.black),
+      itemCount: videos.length,
+      itemBuilder: (context, index) {
+        final videoPost = videos[index];
+
+        return Stack(
+          children: [
+            // videoPlayer + gradient
+            SizedBox.expand(
+              child: FullScreenPlayer(
+                caption: videoPost.caption,
+                videoUrl: videoPost.videoUrl,
+              ),
             ),
-          ),
-        ),
-        Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [Colors.blue, Colors.purple])),
-          child: const Center(
-            child: Text(
-              'Gradiente Horizontal',
-              style: TextStyle(fontSize: 24, color: Colors.white),
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.greenAccent,
-          child: const Center(
-            child: Text(
-              'Color Solido',
-              style: TextStyle(fontSize: 24, color: Colors.black),
-            ),
-          ),
-        )
-      ],
+
+            // buttons
+            Positioned(
+              right: 20,
+              bottom: 40,
+              child: VideoButtons(
+                videoPost: videoPost,
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }
